@@ -1,0 +1,55 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class IntermediateProg extends AppCompatActivity {
+    EditText nogearPro , nlValuePro , nhValuePro;
+    TextView resultShowPro;
+    Button bttnCalcPro;
+    String ProgAns;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_intermediate_prog);
+
+        nogearPro = (EditText) findViewById(R.id.NoGearInterPro);
+        nlValuePro = (EditText) findViewById(R.id.NLValueInterPro);
+        nhValuePro = (EditText) findViewById(R.id.NHValueInterPro);
+        resultShowPro = (TextView) findViewById(R.id.resultCalcInterPro);
+        bttnCalcPro = (Button) findViewById(R.id.bttnCalcInterPro);
+        onAdd();
+
+
+    }
+
+    private void onAdd() {
+        bttnCalcPro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int NoGearInterPro = Integer.parseInt(nogearPro.getText().toString());
+                float NLValueInterPro = Float.parseFloat(nlValuePro.getText().toString());
+                float NHValueInterPro = Float.parseFloat(nhValuePro.getText().toString());
+                float numerator = (NoGearInterPro-1)*NLValueInterPro*NHValueInterPro;
+                StringBuilder AnsPro = new StringBuilder();
+                String[] arrayAns = new String[10];
+                for(int z = 2 ; z < NoGearInterPro; z++){
+                    double DenoHigh = (NoGearInterPro-z)*NHValueInterPro;
+                    double DenoLow = (z-1)*NLValueInterPro;
+                    double AnsInterPro = numerator/(DenoHigh+DenoLow);
+                    ProgAns = String.format("%.2f",AnsInterPro);
+                    arrayAns[z]= ProgAns;
+                    AnsPro.append("N" + z + ": " + arrayAns[z] + "\n");
+                }
+               resultShowPro.setText(AnsPro);
+            }
+        });
+    }
+}
