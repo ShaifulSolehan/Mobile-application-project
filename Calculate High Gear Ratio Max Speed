@@ -1,0 +1,45 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MaxSpeedHighGear extends AppCompatActivity {
+    EditText AngularVelocityMax, rollingTyreMax, MaxSpeedHighRatio;
+    TextView showResultHighMax;
+    Button bttnCalculateMaxHigh;
+    String twodecimalAns;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_max_speed_high_gear);
+
+        AngularVelocityMax = (EditText) findViewById(R.id.AngVelocityMax);
+        rollingTyreMax = (EditText) findViewById(R.id.TyreRadiusMax);
+        MaxSpeedHighRatio = (EditText) findViewById(R.id.MaxSpeedHighgear);
+        showResultHighMax = (TextView) findViewById(R.id.resultMaxHighGear);
+        bttnCalculateMaxHigh = (Button) findViewById(R.id.buttonToCalcMaxHigh);
+        onAdd();
+    }
+
+    private void onAdd() {
+        bttnCalculateMaxHigh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float AngVelocityMax = Float.parseFloat(AngularVelocityMax.getText().toString());
+                float TyreRadiusMax = Float.parseFloat(rollingTyreMax.getText().toString());
+                float MaxSpeedHighGear = Float.parseFloat(MaxSpeedHighRatio.getText().toString());
+                double RPMtoRad = 3.142/30;
+                double resultCalcMaxHigh = AngVelocityMax*TyreRadiusMax/(MaxSpeedHighGear)*RPMtoRad;
+                twodecimalAns = String.format("%.2f", resultCalcMaxHigh);
+
+                showResultHighMax.setText(twodecimalAns);
+            }
+        });
+    }
+}
