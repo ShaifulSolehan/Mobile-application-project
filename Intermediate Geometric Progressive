@@ -1,0 +1,58 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class IntermediateGearRatio extends AppCompatActivity {
+    EditText nGear, nlValue, nhValue;
+    TextView resultCalc;
+    Button butCalc;
+    String AnsInter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_intermediate_gear_ratio);
+
+        nGear = (EditText) findViewById(R.id.NumberOfGear);
+        nhValue = (EditText) findViewById(R.id.NHValue);
+        nlValue = (EditText) findViewById(R.id.NLValue);
+        resultCalc = (TextView) findViewById(R.id.resultIntermediate);
+        butCalc = (Button) findViewById(R.id.bttnInterCalc);
+        onAdd();
+
+    }
+
+    private void onAdd() {
+        butCalc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int numberGear = Integer.parseInt(nGear.getText().toString());
+                float NHValue = Float.parseFloat(nhValue.getText().toString());
+                float NLValue = Float.parseFloat(nlValue.getText().toString());
+                double newNumberGear = numberGear - 1;
+                double CGP = Math.pow((NLValue / NHValue), (1 / newNumberGear));
+                double NhValueformula = NHValue;
+                double newNHValue = 0;
+                int numberGearforFormula = (int) newNumberGear;
+                StringBuilder ans = new StringBuilder();
+                String[] array = new String[10];
+                for (int x = numberGearforFormula; x >1; x--) {
+                    for (int i = 2; i < (numberGear); i++) {
+                        newNHValue = NhValueformula * CGP;
+                        AnsInter = String.format("%.2f", newNHValue);
+                        array[i] = AnsInter;
+                    }
+                    ans.append("N" + x + ": " + array[x] + "\n");
+                    NhValueformula = newNHValue;
+                }
+                resultCalc.setText(ans);
+            }
+        });
+    }
+}
