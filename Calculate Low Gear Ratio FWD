@@ -1,0 +1,52 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class LGRFWD extends AppCompatActivity {
+    EditText RadiusTyre, TorqueMax, MassVehicle,WeightDistributionF, RatioHTW, EfficiencyDrive;
+    TextView resultforFL;
+    Button CalculateF;
+    String formattedValue;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lgrfwd);
+
+        RadiusTyre = (EditText) findViewById(R.id.tyreRadiusR);
+        TorqueMax = (EditText) findViewById(R.id.maxTorqueR);
+        MassVehicle = (EditText) findViewById(R.id.massVehicleR);
+        WeightDistributionF = (EditText) findViewById(R.id.weightDistriR);
+        RatioHTW = (EditText) findViewById(R.id.ratioR);
+        EfficiencyDrive = (EditText) findViewById(R.id.efficiencyR);
+        resultforFL = (TextView) findViewById(R.id.finalresultF);
+        CalculateF = (Button) findViewById(R.id.bttnCalculateF);
+        onAdd();
+    }
+
+    private void onAdd() {
+        CalculateF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float TyreRadius = Float.parseFloat(RadiusTyre.getText().toString());
+                int MaxTorque = Integer.parseInt(TorqueMax.getText().toString());
+                int VehicleMass = Integer.parseInt(MassVehicle.getText().toString());
+                float WeightDistri = Float.parseFloat(WeightDistributionF.getText().toString());
+                float HtoWr = Float.parseFloat(RatioHTW.getText().toString());
+                float DriveEffic = Float.parseFloat(EfficiencyDrive.getText().toString());
+                float newDriveEF = DriveEffic/100;
+
+                double KF= ((WeightDistri/100)+(0.02*HtoWr))/(1+(0.9*HtoWr));
+                double NLFWD = KF*(TyreRadius/(newDriveEF*MaxTorque))*0.9*VehicleMass*9.81;
+                formattedValue = String.format("%.2f",NLFWD);
+                resultforFL.setText(formattedValue);
+
+            }
+        });
+    }
+}
