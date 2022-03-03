@@ -1,0 +1,46 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class HighTopSpeed extends AppCompatActivity {
+    EditText AngularVelocity, TyreTop , TopHighGear;
+    TextView ViewresultHighTop;
+    Button bttnCalculateTop;
+    String AnsinTwo;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_high_top_speed);
+
+        AngularVelocity = (EditText) findViewById(R.id.AngVelocityTop);
+        TyreTop = (EditText) findViewById(R.id.TyrerollingradiusTop);
+        TopHighGear = (EditText) findViewById(R.id.TopSpeedkmh);
+        ViewresultHighTop = (TextView) findViewById(R.id.resultHighTop);
+        bttnCalculateTop = (Button) findViewById(R.id.bttnHighTop);
+        onAdd();
+    }
+
+    private void onAdd() {
+        bttnCalculateTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                float AngVelocityTop = Float.parseFloat(AngularVelocity.getText().toString());
+                float TyreRollingRadiusTop = Float.parseFloat(TyreTop.getText().toString());
+                float TopSpeedkmh = Float.parseFloat(TopHighGear.getText().toString());
+                double ToptoMax = TopSpeedkmh*0.277778;
+                double rpmTorads = 3.14159265359/30;
+                double resultHighTopSpeed = AngVelocityTop*TyreRollingRadiusTop/(ToptoMax)*rpmTorads;
+                AnsinTwo = String.format("%.2f",resultHighTopSpeed);
+                ViewresultHighTop.setText(AnsinTwo);
+            }
+        });
+    }
+}
