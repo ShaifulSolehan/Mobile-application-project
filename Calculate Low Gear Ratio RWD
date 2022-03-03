@@ -1,0 +1,55 @@
+package com.example.projecttrain;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class LRWD extends AppCompatActivity {
+EditText RadiusRollingRWD, MaxEngineTorque , MassVehicleRWD, weightdistributionRWD, ratioRWD, EfficiencyDriveRWD;
+TextView resultRWD;
+Button calculateRWD;
+String RWDAnswer;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lgrrwd);
+
+        RadiusRollingRWD = (EditText) findViewById(R.id.tyreRadiusRWD);
+        MaxEngineTorque = (EditText) findViewById(R.id.engineMaxRWD);
+        weightdistributionRWD = (EditText) findViewById(R.id.weightDistributionRWD);
+        MassVehicleRWD = (EditText) findViewById(R.id.vehicleMassRWD);
+        ratioRWD = (EditText) findViewById(R.id.htwrRWD);
+        EfficiencyDriveRWD = (EditText) findViewById(R.id.driveEfficiencyRWD);
+        resultRWD = (TextView) findViewById(R.id.resultCalcNLRWD);
+        calculateRWD = (Button) findViewById(R.id.bttnCalculateRWD);
+        onAdd();
+
+    }
+
+    private void onAdd() {
+        calculateRWD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                float tyreRadiusRWD = Float.parseFloat(RadiusRollingRWD.getText().toString());
+                int engineMaxRWD = Integer.parseInt(MaxEngineTorque.getText().toString());
+                float weightDistributionRWD = Float.parseFloat(weightdistributionRWD.getText().toString());
+                int vehicleMassRWD = Integer.parseInt(MassVehicleRWD.getText().toString());
+                float HTWRRWD = Float.parseFloat(ratioRWD.getText().toString());
+                float driveEfficiencyRWD = Float.parseFloat(EfficiencyDriveRWD.getText().toString());
+                float newdriveRWD = driveEfficiencyRWD/100 ;
+
+                double KR = ((weightDistributionRWD/100)-(0.02*HTWRRWD))/(1-(0.9*HTWRRWD));
+                double NLRWD = KR*(tyreRadiusRWD/(newdriveRWD*engineMaxRWD))*0.9*vehicleMassRWD*9.81;
+                RWDAnswer = String.format("%.2f",NLRWD);
+                resultRWD.setText(RWDAnswer);
+            }
+        });
+    }
+
+}
